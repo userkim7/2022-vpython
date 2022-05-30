@@ -1,2 +1,2 @@
 print('Hello World')
-print('Life is short. You need Python')
+print('Life is too short. You need Python')
