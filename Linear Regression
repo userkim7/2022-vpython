@@ -1,0 +1,231 @@
+Web VPython 3.2
+
+from random import random
+
+class cal:
+    def Mul(self,List1,List2): #array Multiply
+        mem=[]
+        num=0
+        result=[]
+        List2_column=[]
+        for i in range(len(List1)):
+            for j in range(len(List2[0])):
+                for row in List2:
+                    List2_column.append(row[j])
+                for k in range(len(List1[0])):
+                    num+=List1[i][k]*List2_column[k]
+                mem.append(num)
+                num=0
+                List2_column=[]
+            result.append(mem)
+            mem=[]
+        return result
+    
+    def Add(self,List1,List2):
+        run=True
+        try:
+            List1[0].append('')
+            List1[0].remove('')
+        except:
+            run=False
+        
+        result=[]
+        for i in List1:
+            result.append(i)
+        
+        for i in range(len(result)):
+            if run:
+                for j in range(len(result[0])):
+                    result[i][j]+=List2[0]
+            else:
+                result[i]+=List2[0]
+        return result
+    
+    def add(self,List1,List2):
+        mem=[]
+        result=[]
+        for i in range(len(List1)):
+            for j in range(len(List1[0])):
+                mem.append(List1[i][j]+List2[i][j])
+            result.append(mem)
+            mem=[]
+        return result
+        
+    def sub(self,List1,List2):
+        mem=[]
+        result=[]
+        for i in range(len(List1)):
+            for j in range(len(List1[0])):
+                mem.append(List1[i][j]-List2[i][j])
+            result.append(mem)
+            mem=[]
+        return result
+    
+    def mul(self,List1,List2):
+        mem=[]
+        result=[]
+        for i in range(len(List1)):
+            for j in range(len(List1[0])):
+                mem.append(List1[i][j]*List2[i][j])
+            result.append(mem)
+            mem=[]
+        return result
+    
+    def sum(self,List):
+        run=True
+        try:
+            List[0].append('')
+            List[0].remove('')
+        except:
+            run=False
+        
+        result=0
+        for i in List:
+            if run:
+                for j in i:
+                    result+=j
+            else:
+                result+=i
+        return result
+    
+    
+    
+def rand(location):
+    location.append(random())
+    
+def shape(List):
+    '''
+    if type(List[0])==list:                      #type(W[0]) <class 'list'>
+        return (len(List),len(List[0]))          #type(W[0])==list
+    else:                                        #false
+        return (len(List))
+    '''
+    try:
+        List[0].append('')
+        List[0].remove('')
+    except:
+        return (len(List))
+    return (len(List),len(List[0]))
+    
+def loss_func(x,t):
+    y=np.Add(np.Mul(x,W),b)
+    
+    return (np.sum(np.mul(np.sub(t,y),np.sub(t,y))))/(len(x))
+
+def numerical_derivative(x):
+    delta_x=1e-4
+    
+    run=True
+    try:
+        x[0].append('')
+        x[0].remove('')
+    except:
+        run=False
+    
+    if run:
+        grad=[[0.]]
+        
+        tmp_val=x[0][0]
+        x[0][0]=float(tmp_val)+delta_x
+        fx1=f(x)
+        
+        x[0][0]=tmp_val-delta_x
+        fx2=f(x)
+        grad[0][0]=(fx1-fx2)/(2*delta_x)
+    else:
+        grad=[0.]
+        
+        tmp_val=x[0]
+        x[0]=float(tmp_val)+delta_x
+        fx1=f([x])
+        
+        x[0]=tmp_val-delta_x
+        fx2=f(x)
+        grad[0]=(fx1-fx2)/(2*delta_x)
+    
+    return grad
+    
+def error_val(x,t):
+    y=np.Add(np.Mul(x,W),b)
+    
+    return (np.sum(np.mul(np.sub(t,y),np.sub(t,y))))/(len(x))
+    
+def predict(x):
+    y=np.Add(np.Mul(x,W),b)
+    
+    return y
+    
+def f(x):
+    return loss_func(x_data,t_data)
+
+np=cal()
+
+x_data=[[1], #input data
+        [2],
+        [3],
+        [4],
+        [5]]
+        
+t_data=[[2], #answer data
+        [3],
+        [4],
+        [5],
+        [6]]        
+'''
+W=[[]]
+rand(W[0])
+b=[]
+rand(b)
+'''
+W=[[0]]
+b=[0]
+
+learning_rate=3e-3
+
+k=error_val(x_data,t_data)
+
+print('Initial error value = ',k,'Initial W = ',W,'\n',', b = ',b)
+
+
+scene.camera.pos=vec(4,11,30)
+
+error_val_graph=sphere(radius=0.1,pos=vec(0,error_val(x_data,t_data),0),color=color.red,make_trail=True,trail_radius=0.2)
+W_graph=sphere(radius=0.1,pos=vec(0,W[0][0]*k,0),color=color.blue,make_trail=True,trail_radius=0.2)
+b_graph=sphere(radius=0.1,pos=vec(0,b[0]*k,0),color=color.green,make_trail=True,trail_radius=0.2)
+train_graph=sphere(radius=0.1,pos=vec(-19.7,k-6,0),color=color.cyan,make_trail=True,trail_radius=0.5)
+
+box(size=vec(22,28,0.1),pos=vec(7,11,-0.1))
+text(text='0',pos=vec(-0.8,-1,0),color=color.black)
+text(text='1',pos=vec(-1,k-0.3,0),color=color.black)
+text(text='15000',pos=vec(13,-1,0),color=color.black)
+
+text(text='Linear Regression',pos=vec(2,k+4,0),color=color.black)
+text(text='v\na\nl\nu\ne',pos=vec(-2.5,k+0.3,0),color=color.black)
+text(text='step',pos=vec(13.5,-2.3,0),color=color.black)
+
+text(text=f'x_data={x_data}',pos=vec(-20,k+0.3,0))
+text(text=f't_data={t_data}',pos=vec(-20,k-1.2,0))
+text(text='training progress',pos=vec(-17,k-4,0))
+
+text(text='error value',pos=vec(4,2,0),color=color.red)
+text(text='W',pos=vec(4,k+1,0),color=color.blue)
+text(text='b',pos=vec(4,k-3,0),color=color.green)
+
+for step in range(15001):
+    rate(500)
+    W[0][0]-=learning_rate*numerical_derivative(W)[0][0]
+    b[0]-=learning_rate*numerical_derivative(b)[0]
+
+    error_val_graph.pos=vec(step*1e-3,error_val(x_data,t_data),0)
+    W_graph.pos=vec(step*1e-3,W[0][0]*k,0)
+    b_graph.pos=vec(step*1e-3,b[0]*k,0)
+    train_graph.pos.x+=9.6e-4
+    
+    if step%100==0:
+        print('step = ',step,'error value = ',error_val(x_data,t_data),'W = ',W,', b = ',b)
+
+text(text='choose int to predict',pos=vec(-20,k-8,0))
+
+
+user=input('type x_data: ')
+print(f'x_data = {user}, predict = {round(predict([[int(user)]])[0][0]}')
