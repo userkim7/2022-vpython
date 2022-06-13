@@ -228,4 +228,4 @@ text(text='choose int to predict',pos=vec(-20,k-8,0))
 
 
 user=input('type x_data: ')
-print(f'x_data = {user}, predict = {round(predict([[int(user)]])[0][0]}')
+print(f'x_data = {user}, predict = {round(predict([[int(user)]])[0][0],3)}
